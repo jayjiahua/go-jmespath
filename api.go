@@ -2,7 +2,7 @@ package jmespath
 
 import "strconv"
 
-// JMESPath is the epresentation of a compiled JMES path query. A JMESPath is
+// JMESPath is the representation of a compiled JMES path query. A JMESPath is
 // safe for concurrent use by multiple goroutines.
 type JMESPath struct {
 	ast  ASTNode
@@ -47,3 +47,9 @@ func Search(expression string, data interface{}) (interface{}, error) {
 	}
 	return intr.Execute(ast, data)
 }
+
+func (jp *JMESPath) Register(f *FunctionEntry) {
+	jp.intr.fCall.functionTable[f.Name] = *f
+}
+
+
